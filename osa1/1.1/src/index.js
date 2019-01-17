@@ -1,60 +1,63 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Part = (props) => {
+const Part = ({part, exercises}) => {
     return (
         <div>
-            <p> {props.part} {props.exercises} </p>
+            <p> {part} {exercises} </p>
         </div>
     )
 }
 
-const Header = (props) => {
+const Header = ({course }) => {
     return (
         <div>
-            <p> {props.course} </p>
+            <p> {course} </p>
         </div>
     )
 }
 
-const Content = (props) => {
+const Content = ({ parts }) => {
     return (
         <div>
-            <Part part={props.part1} exercises={props.exercises1} />
-            <Part part={props.part2} exercises={props.exercises2} />
-            <Part part={props.part3} exercises={props.exercises3} />
+        {parts.map( part => (
+            <Part key={part.name} part={part.name} exercises={part.exercises} />
+            ))}
         </div>
     )
 }
 
-const Total = (props) => {
+const Total = ({parts}) => {
     return (
         <div>
-            <p> yhteensä {props.exercises1 + props.exercises2 + props.exercises3} </p>
+            <p> yhteensä {parts.map( part =>
+                part.exercises).reduce((firstValue, secondValue) => firstValue + secondValue)}  </p>
         </div>
     )
 }
 
 const App = () => {
-    const course = 'Half Stack -sovelluskehitys'
-    const part1 = {
+  const course = 'Half Stack -sovelluskehitys'
+  const parts = [
+    {
       name: 'Reactin perusteet',
       exercises: 10
-    }
-    const part2 = {
+    },
+    {
       name: 'Tiedonvälitys propseilla',
       exercises: 7
-    }
-    const part3 = {
+    },
+    {
       name: 'Komponenttien tila',
       exercises: 14
     }
+  ]
 
   return (
     <div>
       <Header course={course} />
-      <Content part1={part1.name} exercises1={part1.exercises} part2={part2.name} exercises2={part2.exercises} part3={part3.name} exercises3={part3.exercises}  />
-      <Total exercises1={part1.exercises} exercises2={part2.exercises} exercises3={part3.exercises} />
+      <Content parts={parts}  />
+      <Total parts={parts} />
     </div>
   )
 }
