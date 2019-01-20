@@ -32,6 +32,9 @@ const App = () => {
       <p>hyvä {good} </p>
       <p> neutraali {neutral} </p>
       <p> huono {bad} </p>
+      <p> yhteensä {good + neutral + bad} </p>
+      <p> keskiarvo {(good*1.0 + neutral*0 + bad*-1)/(good + neutral + bad)}</p>
+      <p> positiivisia {good / (good +neutral + bad) *100} %</p>
     </div>
   )
 }
