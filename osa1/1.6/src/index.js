@@ -7,6 +7,13 @@ const Button = (props) => (
     </button>
   )
 const Statistics = (props) => {
+  if(props.good + props.neutral + props.bad == 0){
+      return(
+          <div>
+              <p> Ei yhtään palautetta annettu </p>
+          </div>
+      )
+  }
   return (
     <div>
       <p>hyvä {props.good} </p>
