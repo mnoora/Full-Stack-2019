@@ -6,8 +6,16 @@ const Button = (props) => (
       {props.text}
     </button>
   )
+
+const Statistic = (props) => {
+    return (
+        <div>
+            <p> {props.text} {props.value} {props.text2} </p>
+        </div>
+    )
+}
 const Statistics = (props) => {
-  if(props.good + props.neutral + props.bad == 0){
+  if( props.good + props.neutral + props.bad == 0){
       return(
           <div>
               <p> Ei yhtään palautetta annettu </p>
@@ -16,12 +24,12 @@ const Statistics = (props) => {
   }
   return (
     <div>
-      <p>hyvä {props.good} </p>
-      <p> neutraali {props.neutral} </p>
-      <p> huono {props.bad} </p>
-      <p> yhteensä {props.good + props.neutral + props.bad} </p>
-      <p> keskiarvo {(props.good*1.0 + props.neutral*0 + props.bad*-1)/(props.good + props.neutral + props.bad)}</p>
-      <p> positiivisia {props.good / (props.good +props.neutral + props.bad) *100} %</p>
+      <Statistic text="hyvä" value={props.good} />
+      <Statistic text="neutraali" value={props.neutral} />
+      <Statistic text="huono" value={props.bad} />
+      <Statistic text="yhteensä" value={props.good + props.neutral + props.bad} />
+      <Statistic text="keskiarvo" value={(props.good*1.0 + props.neutral*0 + props.bad*-1)/(props.good + props.neutral + props.bad)} />
+      <Statistic text="positiivisia" value={props.good / (props.good +props.neutral + props.bad) *100} text2 = "%" />
     </div>
     )
   }
