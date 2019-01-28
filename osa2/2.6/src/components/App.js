@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import Persons from './Persons'
+import PersonForm from './PersonForm'
+import Filter from './Filter'
 
 const App = () => {
   const [ persons, setPersons] = useState([
@@ -6,7 +9,8 @@ const App = () => {
     { name: 'Martti Tienari', number: '040-123456' },
     { name: 'Arto Järvinen', number: '040-123456' },
     { name: 'Lea Kutvonen', number: '040-123456' }
-  ]) 
+  ])
+  
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
   const [ findName, setFindName] = useState('')
@@ -50,28 +54,15 @@ const App = () => {
   return (
     <div>
       <h2>Puhelinluettelo</h2>
-      rajaa näytettäviä <input value={findName} onChange={handleFindNameChange} />
+      <Filter findName={findName} handleFindNameChange={handleFindNameChange} />
       <h2> lisää uusi</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          nimi: <input 
-          value= {newName}
-          onChange={handleNameChange} 
-          />
-        </div>
-        <div>
-            numero: <input 
-            value= {newNumber}
-            onChange={handleNumberChange} 
-            />
-        </div>
-        <div>
-          <button type="submit">lisää</button>
-        </div>
-      </form>
-      <h2>Numerot</h2>
-      {personsToShow.map(person =>
-        <p key={person.name}> {person.name} {person.number} </p> )}
+      <PersonForm addPerson={addPerson}
+       newName={newName}
+       handleNameChange={handleNameChange}
+       newNumber={newNumber}
+       handleNumberChange={handleNumberChange}/>
+      <h3>Numerot</h3>
+      <Persons persons={personsToShow}/>
     </div>
   )
 
