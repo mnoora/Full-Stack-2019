@@ -8,7 +8,9 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    const personObject = {
+    const sameName = persons.filter(person => (person.name === newName))
+    if(sameName.length === 0){
+      const personObject = {
         name: newName,
         date: new Date().toISOString(),
         important: Math.random() > 0.5,
@@ -17,6 +19,9 @@ const App = () => {
     
       setPersons(persons.concat(personObject))
       setNewName('')
+    } else {
+       alert(`${newName} on jo luettelossa`)
+    }
   }
 
   const handleNameChange = (event) => {
