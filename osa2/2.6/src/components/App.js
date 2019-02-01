@@ -43,7 +43,21 @@ const App = () => {
       setNewName('')
       setNewNumber('')
     } else {
-       alert(`${newName} on jo luettelossa`)
+      if( window.confirm(`${sameName[0].name} on jo luettelossa, korvataanko vanha numero uudella?`)){
+        const updatePersonObject = {
+          name: newName,
+          number: newNumber,
+          date: new Date().toISOString(),
+          important: Math.random() > 0.5,
+          id: persons.length + 1,
+        }
+        personService
+          .update(sameName[0].id, updatePersonObject)
+          .then(response => {
+            setPersons(persons.map(p => p.id !== sameName[0].id ? p :response ))
+          })
+          
+      }
     }
   }
 
