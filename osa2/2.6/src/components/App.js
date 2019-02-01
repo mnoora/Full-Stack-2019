@@ -4,6 +4,7 @@ import PersonForm from './PersonForm'
 import Filter from './Filter'
 import personService from '../services/persons'
 import NotificationSuccess from './NotificationSuccess';
+import NotificationError from './NotificationError';
 
 const App = () => {
   const [ persons, setPersons] = useState([])
@@ -12,6 +13,7 @@ const App = () => {
   const [ newNumber, setNewNumber] = useState('')
   const [ findName, setFindName] = useState('')
   const [ successMessage, setSuccessMessage] = useState(null)
+  const [ errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -62,6 +64,15 @@ const App = () => {
           .then(response => {
             setPersons(persons.map(p => p.id !== sameName[0].id ? p :response ))
           })
+          .catch(error => {
+            setErrorMessage(
+              `Henkilö ${sameName[0].name} oli jo poistettu`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+            setPersons(persons.filter(n => n.id !== sameName[0].id))
+          })
           
       }
     }
@@ -96,6 +107,7 @@ const App = () => {
     <div>
       <h2>Puhelinluettelo</h2>
       <NotificationSuccess message={successMessage} />
+      <NotificationError message={errorMessage} />
       <Filter findName={findName} handleFindNameChange={handleFindNameChange} />
       <h2> lisää uusi</h2>
       <PersonForm addPerson={addPerson}
