@@ -3,6 +3,7 @@ import Persons from './Persons'
 import PersonForm from './PersonForm'
 import Filter from './Filter'
 import personService from '../services/persons'
+import NotificationSuccess from './NotificationSuccess';
 
 const App = () => {
   const [ persons, setPersons] = useState([])
@@ -10,6 +11,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
   const [ findName, setFindName] = useState('')
+  const [ successMessage, setSuccessMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -42,6 +44,10 @@ const App = () => {
       setPersons(persons.concat(personObject))
       setNewName('')
       setNewNumber('')
+      setSuccessMessage(`Lisättiin ${personObject.name}` )
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
     } else {
       if( window.confirm(`${sameName[0].name} on jo luettelossa, korvataanko vanha numero uudella?`)){
         const updatePersonObject = {
@@ -89,6 +95,7 @@ const App = () => {
   return (
     <div>
       <h2>Puhelinluettelo</h2>
+      <NotificationSuccess message={successMessage} />
       <Filter findName={findName} handleFindNameChange={handleFindNameChange} />
       <h2> lisää uusi</h2>
       <PersonForm addPerson={addPerson}
