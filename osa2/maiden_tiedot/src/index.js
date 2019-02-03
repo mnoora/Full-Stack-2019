@@ -55,7 +55,7 @@ const ShowCountries = ({findCountry, countriesToShow, weather, setWeather}) => {
         return(
             <div>
                 {countriesToShow.map(country =>
-                <p key={country.name}> {country.name} </p>)} 
+                <p key={country.name}> {country.name}  </p> )} 
             </div>
         )
     }else if(countriesToShow.length === 1){
