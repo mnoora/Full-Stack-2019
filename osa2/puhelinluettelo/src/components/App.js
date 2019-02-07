@@ -32,8 +32,6 @@ const App = () => {
       const personObject = {
         name: newName,
         number: newNumber,
-        date: new Date().toISOString(),
-        important: Math.random() > 0.5,
         id: persons.length + 1,
       }
 
@@ -55,8 +53,6 @@ const App = () => {
         const updatePersonObject = {
           name: newName,
           number: newNumber,
-          date: new Date().toISOString(),
-          important: Math.random() > 0.5,
           id: persons.length + 1,
         }
         personService
