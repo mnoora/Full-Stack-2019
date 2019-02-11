@@ -38,18 +38,22 @@ const App = () => {
       personService
         .create(personObject)
         .then(response => {
-        setPersons(persons.concat(response.data))
-    })
-    
-      setPersons(persons.concat(personObject))
-      setNewName('')
-      setNewNumber('')
-      setSuccessMessage(`Lisättiin ${personObject.name}` )
-      setTimeout(() => {
-        setSuccessMessage(null)
-      }, 5000)
+          setPersons(persons.concat(personObject))
+          setNewName('')
+          setNewNumber('')
+          setSuccessMessage(`Lisättiin ${personObject.name}` )
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000)
+        }).catch(error => {
+          setErrorMessage(`${error.response.data.error}`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 7000)
+          console.log(error.response.data)
+        })
     } else {
-      if( window.confirm(`${sameName[0].name} on jo luettelossa, korvataanko vanha numero uudella?`)){
+      if(window.confirm(`${sameName[0].name} on jo luettelossa, korvataanko vanha numero uudella?`)){
         const updatePersonObject = {
           name: newName,
           number: newNumber,
