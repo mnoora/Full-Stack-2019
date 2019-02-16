@@ -56,6 +56,25 @@ test('a valid blog can be added', async () => {
   )
 })
 
+test('likes is set to zero if no value given', async () => {
+  const newBlog = {
+    title: 'async/await yksinkertaistaa asynkronisten funktioiden kutsua',
+    author: 'Mikko Heinonen',
+    url: 'www.newBlog.com',
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd =  await helper.blogsInDb()
+
+  const contents = blogsAtEnd.map(n => n.likes)
+  expect(contents[blogsAtEnd.length - 1]).toBe(0)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
