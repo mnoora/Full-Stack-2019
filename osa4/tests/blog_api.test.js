@@ -75,6 +75,32 @@ test('likes is set to zero if no value given', async () => {
   expect(contents[blogsAtEnd.length - 1]).toBe(0)
 })
 
+test('blog without title cannot be added', async () => {
+  const newBlog = {
+    author: 'Mikko Heinonen',
+    url: 'www.newBlog.com',
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+    .expect('Content-Type', /application\/json/)
+})
+
+test('blog without url cannot be added', async () => {
+  const newBlog = {
+    title: 'async/await yksinkertaistaa asynkronisten funktioiden kutsua',
+    author: 'Mikko Heinonen',
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+    .expect('Content-Type', /application\/json/)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
