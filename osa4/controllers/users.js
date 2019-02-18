@@ -15,6 +15,7 @@ usersRouter.post('/', async (request, response, next) => {
       username: body.username,
       name: body.name,
       passwordHash,
+      blogs: []
     })
 
     const savedUser = await user.save()
@@ -25,8 +26,8 @@ usersRouter.post('/', async (request, response, next) => {
   }
 })
 usersRouter.get('/', async (request, response) => {
-    const users = await User.find({})
-    response.json(users.map(u => u.toJSON()))
-  })
+  const users = await User.find({}).populate('blogs', { title: 1, author: 1, url: 1, likes:1 })
+  response.json(users.map(u => u.toJSON()))
+})
 
 module.exports = usersRouter
