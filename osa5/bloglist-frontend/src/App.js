@@ -11,6 +11,10 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
 
+  const [ newTitle, setNewTitle ] = useState('')
+  const [ newUrl, setNewUrl] = useState('')
+  const [ newAuthor, setNewAuthor] = useState('')
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
@@ -48,6 +52,26 @@ const App = () => {
     }
   }
 
+  const addBlog = async (event) => {
+    event.preventDefault()
+    try {
+      const blog = await blogService.create({
+        title: newTitle,
+        author: newAuthor,
+        url: newUrl
+      })
+
+      setNewTitle('')
+      setNewAuthor('')
+      setNewUrl('')
+    } catch (exception) {
+      setErrorMessage('blogia ei voitu luoda')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
+
   const handleLogout = async (event) => {
     setUser(null)
     window.localStorage.removeItem('loggedBlogappUser')
@@ -77,15 +101,47 @@ const App = () => {
     </form>      
   )
 
- // const blogForm = () => (
-  //  <form onSubmit={addBlog}>
-   //   <input
- //       value={newNote}
-  //      onChange={handleNoteChange}
-  //    />
-  //    <button type="submit">tallenna</button>
-  //  </form>  
- // )
+  const BlogForm = () => {
+    return (
+      <form onSubmit={addBlog}>
+        <div>
+          title: <input 
+          value= {newTitle}
+          onChange={handleTitleChange} 
+          />
+        </div>
+        <div>
+            author: <input 
+            value= {newAuthor}
+            onChange={handleAuthorChange} 
+            />
+        </div>
+        <div>
+            url: <input 
+            value= {newUrl}
+            onChange={handleUrlChange} 
+            />
+        </div>
+        <div>
+          <button type="submit">create</button>
+        </div>
+      </form>
+
+    )
+}
+const handleTitleChange = (event) => {
+  console.log(event.target.value)
+  setNewTitle(event.target.value)
+}
+
+const handleAuthorChange = (event) => {
+  console.log(event.target.value)
+  setNewAuthor(event.target.value)
+}
+const handleUrlChange = (event) => {
+  console.log(event.target.value)
+  setNewUrl(event.target.value)
+}
 
   return (
     <div>
@@ -101,6 +157,7 @@ const App = () => {
         {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
+      {BlogForm()}
       <button onClick={handleLogout}>logout</button>
       </div>
     }
