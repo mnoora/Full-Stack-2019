@@ -9,6 +9,8 @@ const logger = require('./utils/logger')
 const middleware = require('./utils/middleware')
 const mongoose = require('mongoose')
 
+const { tokenExtractor } = require('./utils/middleware')
+
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
   .then(() => {
@@ -21,6 +23,7 @@ mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
 
 app.use(bodyParser.json())
 app.use(middleware.requestLogger)
+app.use(tokenExtractor)
 
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
