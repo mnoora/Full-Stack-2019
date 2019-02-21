@@ -84,6 +84,18 @@ const App = () => {
     }
   }
 
+  const like = async (blog) => {
+    try {
+      blog.likes = blog.likes+1 
+      const b =await blogService.update(blog.id, blog)
+    }catch (exception) {
+      setErrorMessage('tykkäystä ei voitu lisätä')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
+
   const handleLogout = async (event) => {
     setUser(null)
     window.localStorage.removeItem('loggedBlogappUser')
@@ -153,7 +165,7 @@ const handleUrlChange = (event) => {
       {blogForm()}
       <br/>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} like={like} />
       )}
       </div>
     }
