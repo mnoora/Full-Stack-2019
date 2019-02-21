@@ -96,6 +96,21 @@ const App = () => {
     }
   }
 
+  const deleteBlog =async (blog) => {
+    if( window.confirm(`remove blog ${blog.title} by ${blog.author}`)){
+    try {
+    await blogService
+      .deleteBlog(blog.id)
+      setBlogs(blogs.filter(pe => pe.id !== blogs.id ))
+    } catch {
+      setErrorMessage('Blogia ei voitu poistaa')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
+}
+
   const handleLogout = async (event) => {
     setUser(null)
     window.localStorage.removeItem('loggedBlogappUser')
@@ -165,7 +180,7 @@ const handleUrlChange = (event) => {
       {blogForm()}
       <br/>
       {blogs.sort((a,b) => b.likes-a.likes).map(blog =>
-        <Blog key={blog.id} blog={blog} like={like} />
+        <Blog key={blog.id} blog={blog} like={like} deleteBlog={deleteBlog} user={user} />
       )}
       </div>
     }
