@@ -1,7 +1,7 @@
 import React from 'react'
 
 const DeleteB = ({ blog,user,deleteBlog }) => {
-  if(user.username === blog.user.username){
+  if(blog.user && user.username === blog.user.username){
     return (
       <button onClick={() => deleteBlog(blog)}>remove</button>
     )

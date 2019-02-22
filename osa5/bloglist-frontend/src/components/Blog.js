@@ -15,12 +15,12 @@ const Blog = ({ blog, like, deleteBlog, user }) => {
 
   if(showAll){
     return (
-      <div style={blogStyle}>
+      <div style={blogStyle} className='showAll'>
         <div onClick={() => setShowAll(false)}>
           {blog.title} {blog.author} <br/>
           {blog.url} <br/>
           {blog.likes} likes <button onClick={() => like(blog)}>like</button> <br/>
-          added by {blog.user.name} <br/>
+          added by {blog.user? blog.user.name : 'unknown user'} <br/>
           <DeleteB user={user} blog={blog} deleteBlog={deleteBlog}></DeleteB>
         </div>
       </div>
@@ -28,7 +28,7 @@ const Blog = ({ blog, like, deleteBlog, user }) => {
   }else{
     return (
       <div style={blogStyle}>
-        <div onClick={() => setShowAll(true)}>
+        <div onClick={() => setShowAll(true)} className='default'>
           {blog.title} {blog.author}
         </div>
       </div>
