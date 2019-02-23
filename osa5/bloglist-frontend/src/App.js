@@ -7,19 +7,22 @@ import Togglable from './components/Togglable'
 import loginService from './services/login'
 import NotificationError from './components/NotificationError'
 import NotificationSuccess from './components/NotificationSuccess'
+import  { useField } from './hooks'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+
+  const username = useField('text')
+  const password = useField('password')
+
   const [errorMessage, setErrorMessage] = useState(null)
   const [ successMessage, setSuccessMessage] = useState(null)
   const [user, setUser] = useState(null)
   const blogFormRef = React.createRef()
 
-  const [ newTitle, setNewTitle ] = useState('')
-  const [ newUrl, setNewUrl] = useState('')
-  const [ newAuthor, setNewAuthor] = useState('')
+  const title = useField('text')
+  const url = useField('text')
+  const author = useField('text')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -38,9 +41,11 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
+
     try {
       const user = await loginService.login({
-        username, password,
+        username: username.props.value,
+        password: password.props.value
       })
 
       window.localStorage.setItem(
@@ -48,14 +53,14 @@ const App = () => {
       )
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
     } catch (exception) {
       setErrorMessage('käyttäjätunnus tai salasana virheellinen')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
     }
+    username.reset()
+    password.reset()
   }
 
   const addBlog = async (event) => {
@@ -63,24 +68,24 @@ const App = () => {
     blogFormRef.current.toggleVisibility()
     try {
       await blogService.create({
-        title: newTitle,
-        author: newAuthor,
-        url: newUrl
+        title: title.props.value,
+        author: author.props.value,
+        url: url.props.value
       })
-      setSuccessMessage(`a new blog ${newTitle} by ${newAuthor} added` )
+      setSuccessMessage(`a new blog ${title.props.value} by ${author.props.value} added` )
       setTimeout(() => {
         setSuccessMessage(null)
       }, 5000)
 
-      setNewTitle('')
-      setNewAuthor('')
-      setNewUrl('')
     } catch (exception) {
       setErrorMessage('blogia ei voitu luoda')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
     }
+    title.reset()
+    author.reset()
+    url.reset()
   }
 
   const like = async (blog) => {
@@ -122,8 +127,6 @@ const App = () => {
           <LoginForm
             username={username}
             password={password}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
             handleSubmit={handleLogin}
           />
         </Togglable>
@@ -135,32 +138,13 @@ const App = () => {
     return (
       <Togglable buttonLabel="create" ref={blogFormRef} >
         <BlogForm addBlog={addBlog}
-          newAuthor={newAuthor}
-          newTitle={newTitle}
-          newUrl={newUrl}
-          handleAuthorChange={handleAuthorChange}
-          handleTitleChange={handleTitleChange}
-          handleUrlChange={handleUrlChange}
+          newAuthor={author}
+          newTitle={title}
+          newUrl={url}
         />
       </Togglable>
     )
   }
-
-
-  const handleTitleChange = (event) => {
-    console.log(event.target.value)
-    setNewTitle(event.target.value)
-  }
-
-  const handleAuthorChange = (event) => {
-    console.log(event.target.value)
-    setNewAuthor(event.target.value)
-  }
-  const handleUrlChange = (event) => {
-    console.log(event.target.value)
-    setNewUrl(event.target.value)
-  }
-
 
   return (
     <div>
