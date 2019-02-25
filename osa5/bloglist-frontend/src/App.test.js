@@ -30,6 +30,22 @@ describe('<App />', () => {
     )
     component.rerender(<App />)
 
-    expect(component.container).toHaveTextContent('Selain pystyy suorittamaan vain javascriptiä')
+    await waitForElement(
+      () => component.container.querySelector('.blog')
+    )
+
+    const blogs = component.container.querySelectorAll('.blog')
+    expect(blogs.length).toBe(3)
+
+    expect(component.container).toHaveTextContent(
+      'HTML on helppoa'
+    )
+
+    expect(component.container).toHaveTextContent(
+      'Selain pystyy suorittamaan vain javascriptiä'
+    )
+    expect(component.container).toHaveTextContent(
+      'HTTP-protokollan tärkeimmät metodit ovat GET ja POST'
+    )
   })
 })

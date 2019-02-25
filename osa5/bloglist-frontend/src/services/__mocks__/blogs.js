@@ -38,7 +38,7 @@ const blogs = [
 ]
 
 const setToken = newToken => {
-  const token = `bearer ${newToken}`
+  `bearer ${newToken}`
 }
 
 const getAll = () => {
