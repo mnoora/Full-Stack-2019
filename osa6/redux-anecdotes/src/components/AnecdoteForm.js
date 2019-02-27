@@ -3,12 +3,14 @@ import {
     createAnecdote
   } 
 from '../reducers/anecdoteReducer'
+import {notify} from '../reducers/notificationReducer'
 
 const AnecdoteForm = (props) => {
 
     const addAnecdote = (event) => {
         event.preventDefault()
         props.store.dispatch(createAnecdote(event.target.anecdote.value))
+        props.store.dispatch(notify(`You created '${event.target.anecdote.value}'`))
         event.target.anecdote.value = ''
       }
     return (
