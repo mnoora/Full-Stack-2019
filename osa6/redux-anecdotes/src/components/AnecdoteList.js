@@ -4,6 +4,7 @@ import {
   } 
 from '../reducers/anecdoteReducer'
 import {notify} from '../reducers/notificationReducer'
+import Filter from './Filter'
 
 const AnecdoteList = (props) => {
     const anecdotes = props.store.getState().anecdotes
@@ -19,9 +20,19 @@ const AnecdoteList = (props) => {
       return anecdotes.sort((a,b) => b.votes - a.votes)
     }
 
+    const filterAnecdotes = (anecdotes) => {
+      const filter = props.store.getState().filter
+      if( filter === 'ALL'){
+        return anecdotes
+      }
+      const filteredAnecdotes = anecdotes.filter(a => a.content.toLowerCase().includes(filter.toLowerCase()))
+      return filteredAnecdotes
+    }
+
     return (
       <div>
-        {AnecdotesInOrder(anecdotes).map(anecdote =>
+        <Filter store={props.store}></Filter>
+        {AnecdotesInOrder(filterAnecdotes(anecdotes)).map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
