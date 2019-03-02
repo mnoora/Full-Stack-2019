@@ -8,12 +8,10 @@ import {notify} from '../reducers/notificationReducer'
 import Filter from './Filter'
 
 const AnecdoteList = (props) => {
-    const anecdotes = props.filteredAnecdotes
   
-    const addVote = (id) => {
-      props.vote(id)
-      const anec = anecdotes.find(n => n.id === id)
-      props.notify(`You voted '${anec.content}'`)
+    const addVote = (anecdote) => {
+      props.vote(anecdote)
+      props.notify(`You voted '${anecdote.content}'`)
     }
 
     return (
@@ -26,7 +24,7 @@ const AnecdoteList = (props) => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => addVote(anecdote.id)}>vote</button>
+            <button onClick={() => addVote(anecdote)}>vote</button>
           </div>
         </div>
       )}
