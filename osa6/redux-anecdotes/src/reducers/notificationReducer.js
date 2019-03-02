@@ -8,19 +8,19 @@ const notificationReducer = (state = null, action) => {
     }
 }
 
-export const notify = (notification) => {
-    return (dispatch) => {
+export const notify = (notification, time) => {
+    return async (dispatch) => {
         dispatch({
           type: 'NOTIFY',
           data: {notification: notification}
         })
-        setTimeout(() => {
+        await setTimeout(() => {
             dispatch({ 
                 type: 'NOTIFY',
                 data: {
                     notification: null 
                 }})
-          }, 5000)
+        }, time * 1000)
     }}
     
 

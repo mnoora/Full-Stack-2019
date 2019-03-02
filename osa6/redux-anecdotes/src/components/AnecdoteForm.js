@@ -14,7 +14,7 @@ const AnecdoteForm = (props) => {
         event.target.anecdote.value = ''
         props.createAnecdote(content)
 
-        props.notify(`You created '${content}'`)
+        props.notify(`You created '${content}'`, 5)
       }
       
     return (
