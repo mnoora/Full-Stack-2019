@@ -1,0 +1,13 @@
+PUT http://localhost:3003/api/blogs/5c69877501b6115c9b70dde5
+Content-Type: application/json
+
+{
+    "title": "Hei vaan",
+    "author": "Anonyymi",
+    "url": "www.hei.com",
+    "likes": 5,
+    "user": {
+        "username": "matti",
+        "name": "matti"
+    }
+}
