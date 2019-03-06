@@ -86,6 +86,17 @@ const App = (props) => {
     store.dispatch(notify(`blog ${updatedBlog.title} by ${updatedBlog.author} liked!`,5))
   }
 
+  const commentBlog = async (props) => {
+    const findBlog = blogById(props.id)
+    const comments = findBlog.comments
+    const newComments = comments.concat(props.comment)
+    const commentedBlog = { ...findBlog, comments: newComments}
+    const updatedBlog = await blogService.update(commentedBlog)
+    setBlogs(blogs.map(b => b.id === findBlog.id ? updatedBlog : b))
+    store.dispatch(notify(`Comment added to blog ${updatedBlog.title}`,5))
+  
+  }
+
   const removeBlog = async (blog) => {
     const ok = window.confirm(`remove blog ${blog.title} by ${blog.author}`)
     if (ok) {
@@ -155,7 +166,7 @@ const App = (props) => {
       } />
 
       <Route exact path="/blogs/:id" render={({match}) =>
-      <BlogPage blog={blogById(match.params.id)} like={likeBlog} remove={removeBlog} user={user} />  
+      <BlogPage blog={blogById(match.params.id)} like={likeBlog} remove={removeBlog} user={user} comment={commentBlog} />  
     } />
       </div>
     </div>

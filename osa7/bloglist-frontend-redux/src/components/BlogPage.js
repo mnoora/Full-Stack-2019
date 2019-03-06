@@ -1,7 +1,7 @@
 import React from 'react'
 import Comments from './Comments'
 
-const BlogPage = ({blog, like, user, remove}) => {
+const BlogPage = ({blog, like, user, remove,comment}) => {
 
     if(blog == null){
         return null
@@ -18,7 +18,7 @@ const BlogPage = ({blog, like, user, remove}) => {
         <div>added by {blog.user.name}</div>
         {creator &&(<button onClick={() => remove(blog)}>remove </button>)}
         <h3>comments</h3>
-        <Comments blog={blog}/>
+        <Comments blog={blog} commentBlog={comment} />
       
       </div>
     )

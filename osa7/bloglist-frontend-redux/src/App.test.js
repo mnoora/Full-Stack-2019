@@ -1,7 +1,7 @@
+import App from './App'
 import React from 'react'
 import { render, waitForElement } from 'react-testing-library'
 jest.mock('./services/blogs')
-import App from './App'
 
 describe('<App />', () => {
   let component
