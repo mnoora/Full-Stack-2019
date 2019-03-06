@@ -35,6 +35,10 @@ router.post('/', async (request, response) => {
     blog.likes = 0
   }
 
+  if( !blog.comments ){
+    blog.comments = []
+  }
+
   const result = await blog.save()
   user.blogs = user.blogs.concat(blog)
   await user.save()
@@ -43,10 +47,10 @@ router.post('/', async (request, response) => {
 })
 
 router.put('/:id', async (request, response) => {
-  const { author, title, url,likes } = request.body
+  const { author, title, url,likes, comments } = request.body
 
   const blog = {
-    author, title, url, likes,
+    author, title, url, likes, comments,
   }
 
   const updatedNote = await Blog
