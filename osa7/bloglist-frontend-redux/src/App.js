@@ -13,6 +13,13 @@ import MainPage from './components/MainPage'
 import userService from './services/users'
 import UserPage from './components/UserPage';
 import BlogPage from './components/BlogPage';
+import styled from 'styled-components'
+
+const Navigation = styled.div`
+  background: lightgrey;
+  color: dodgerblue;
+  padding: 1em;
+`
 
 const App = (props) => {
   const store = props.store
@@ -122,17 +129,19 @@ const App = (props) => {
   return (
     <Router>
     <div>
-      <div>
+      <Navigation>
+      <Link style={padding} to="/">blogs</Link>
       <Link style={padding} to="/users">users</Link>
-      <Link style={padding} to="/"></Link>
-      </div>
+      {user
+              ? <><em>{user.name} logged in</em> <button onClick={handleLogout}>logout</button> </>
+              : <Link to="/">login</Link>
+            }
+      </Navigation>
       <div>
       <h2>blogs</h2>
 
       <Notification store={store} />
 
-      <p>{user.name} logged in</p>
-      <button onClick={handleLogout}>logout</button>
       <Route exact path="/" render={() =>
         <MainPage newBlogRef={newBlogRef} createBlog={createBlog} blogs={blogs} byLikes={byLikes} likeBlog={likeBlog} removeBlog={removeBlog} user={user}></MainPage>
       } />
