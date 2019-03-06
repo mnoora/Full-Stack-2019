@@ -1,6 +1,5 @@
 import React from 'react'
 import { useField } from '../hooks'
-import { connect } from 'react-redux'
 
 const NewBlog = (props) => {
   const [title, titleReset] = useField('text')

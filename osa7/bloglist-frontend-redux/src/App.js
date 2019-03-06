@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
-import NewBlog from './components/NewBlog'
 import Notification from './components/Notification'
-import Togglable from './components/Togglable'
 import { useField } from './hooks'
 import {notify } from './reducers/notificationReducer'
 import UsersPage from './components/UsersPage'
 import {
   BrowserRouter as Router,
-  Route, Link, Redirect, withRouter
+  Route, Link
 } from 'react-router-dom'
 import MainPage from './components/MainPage'
 import userService from './services/users'
+import UserPage from './components/UserPage';
+import BlogPage from './components/BlogPage';
 
 const App = (props) => {
   const store = props.store
@@ -83,7 +82,7 @@ const App = (props) => {
   const removeBlog = async (blog) => {
     const ok = window.confirm(`remove blog ${blog.title} by ${blog.author}`)
     if (ok) {
-      const updatedBlog = await blogService.remove(blog)
+      await blogService.remove(blog)
       setBlogs(blogs.filter(b => b.id !== blog.id))
       store.dispatch(notify(`blog ${blog.title} by ${blog.author} removed!`,5))
     }
@@ -117,6 +116,9 @@ const App = (props) => {
 
   const padding = { padding: 5 }
 
+  const userById = (id) => users.find(user => user.id === id)
+  const blogById = (id) => blogs.find(blog => blog.id === id)
+
   return (
     <Router>
     <div>
@@ -136,8 +138,16 @@ const App = (props) => {
       } />
 
       <Route exact path="/users" render={() =>
-      <UsersPage users={users} ></UsersPage>
+        <UsersPage users={users} ></UsersPage>
       } />
+
+      <Route exact path="/users/:id" render={({match}) =>
+        <UserPage user={userById(match.params.id)} />
+      } />
+
+      <Route exact path="/blogs/:id" render={({match}) =>
+      <BlogPage blog={blogById(match.params.id)} like={likeBlog} remove={removeBlog} user={user} />  
+    } />
       </div>
     </div>
     </Router>
