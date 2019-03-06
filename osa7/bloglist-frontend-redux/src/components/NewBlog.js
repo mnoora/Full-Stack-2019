@@ -1,5 +1,6 @@
 import React from 'react'
 import { useField } from '../hooks'
+import { Button } from 'react-bootstrap';
 
 const NewBlog = (props) => {
   const [title, titleReset] = useField('text')
@@ -35,7 +36,7 @@ const NewBlog = (props) => {
           url:
           <input {...url} />
         </div>
-        <button type='submit'>create</button>
+        <Button variant="outline-success" type='submit'>create</Button>
       </form>
     </div>
   )

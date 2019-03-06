@@ -1,14 +1,15 @@
+
 import React from 'react'
 import {
     Link
   } from 'react-router-dom'
-
+  import {Table } from 'react-bootstrap';
 const UsersPage = ({users}) => {
 
     return (
         <div>
             <h2>Users</h2>
-            <table>
+            <Table striped>
                 <tbody>
                     <tr>
                     <th></th>
@@ -21,7 +22,7 @@ const UsersPage = ({users}) => {
                     <td>{user.blogs.length}</td>
                     </tr>)}
             </tbody>
-            </table>
+            </Table>
 
         </div>
     )

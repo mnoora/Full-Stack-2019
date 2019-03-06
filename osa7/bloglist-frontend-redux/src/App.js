@@ -13,13 +13,8 @@ import MainPage from './components/MainPage'
 import userService from './services/users'
 import UserPage from './components/UserPage';
 import BlogPage from './components/BlogPage';
-import styled from 'styled-components'
+import { Button, Navbar, Nav } from 'react-bootstrap'
 
-const Navigation = styled.div`
-  background: lightgrey;
-  color: dodgerblue;
-  padding: 1em;
-`
 
 const App = (props) => {
   const store = props.store
@@ -106,9 +101,11 @@ const App = (props) => {
     }
   }
 
+
+
   if (user === null) {
     return (
-      <div>
+      <div className="container">
         <h2>log in to application</h2>
 
         <Notification store={store} />
@@ -122,7 +119,7 @@ const App = (props) => {
             salasana
             <input {...password} />
           </div>
-          <button type="submit">kirjaudu</button>
+          <Button variant="success" type="submit">kirjaudu</Button>
         </form>
       </div>
     )
@@ -138,16 +135,28 @@ const App = (props) => {
   const blogById = (id) => blogs.find(blog => blog.id === id)
 
   return (
+    <div className="container">
     <Router>
     <div>
-      <Navigation>
-      <Link style={padding} to="/">blogs</Link>
-      <Link style={padding} to="/users">users</Link>
-      {user
-              ? <><em>{user.name} logged in</em> <button onClick={handleLogout}>logout</button> </>
+      <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+        <Nav className="mr-auto">
+        <Nav.Link href="#" as="span">
+          <Link style={padding} to="/">blogs</Link>
+        </Nav.Link>
+        <Nav.Link href="#" as="span">
+          <Link style={padding} to="/users">users</Link>
+        </Nav.Link>
+        <Nav.Link href="#" as="span">
+            {user
+              ? <><em>{user.name} logged in</em> <Button variant="secondary" onClick={handleLogout}>logout</Button> </>
               : <Link to="/">login</Link>
             }
-      </Navigation>
+            </Nav.Link>
+            </Nav>
+      </Navbar.Collapse>
+    </Navbar>
       <div>
       <h2>blogs</h2>
 
@@ -171,6 +180,7 @@ const App = (props) => {
       </div>
     </div>
     </Router>
+    </div>
   )
 }
 

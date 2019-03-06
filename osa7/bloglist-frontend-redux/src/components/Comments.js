@@ -1,5 +1,6 @@
 import React from 'react'
 import { useField } from '../hooks'
+import { Button } from 'react-bootstrap';
 
 const Comments = ({blog,commentBlog}) => {
     const [comment, commentReset] = useField('text')
@@ -21,7 +22,7 @@ const Comments = ({blog,commentBlog}) => {
             <div>
              <input {...comment} />
              </div>
-            <button type='submit'>add comment</button>
+            <Button variant="success" type='submit'>add comment</Button>
             </form>
                 No comments added!
             </div>
@@ -34,7 +35,7 @@ const Comments = ({blog,commentBlog}) => {
             <div>
              <input {...comment} />
              </div>
-            <button type='submit'>add comment</button>
+             <Button variant="success" type='submit'>add comment</Button>
             </form>
             <ul>
             {blog.comments.map(comment =>

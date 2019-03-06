@@ -11,12 +11,16 @@ const Blog = ({ blog }) => {
     paddingLeft: 2,
     border: 'solid',
     borderWidth: 1,
-    marginBottom: 5
+    marginBottom: 5,
+    color: '#ff66a3',
+    background: '#d9d9d9'
   }
 
   return (
-    <div style={blogStyle}>
-      <div>
+    <div>
+      <br/>
+      <div style={blogStyle}>
+
       <Link to={`/blogs/${blog.id}`}> {blog.title} {blog.author}</Link> 
       </div>
     </div>
