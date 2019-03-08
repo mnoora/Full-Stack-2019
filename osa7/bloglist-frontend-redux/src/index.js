@@ -8,15 +8,15 @@ import blogReducer from './reducers/blogReducer'
 const reducer = combineReducers({
     notification: notificationReducer,
     blogs:blogReducer
-  })
+})
 
 const store = createStore(reducer)
 
 const renderApp = () => {
-  ReactDOM.render(
-    <App store={store}/>,
-    document.getElementById('root')
-  )
+    ReactDOM.render(
+        <App store={store}/>,
+        document.getElementById('root')
+    )
 }
 
 renderApp()

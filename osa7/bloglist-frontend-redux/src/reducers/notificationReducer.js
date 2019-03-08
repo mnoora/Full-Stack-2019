@@ -2,18 +2,16 @@
 const notificationReducer = (state = null, action) => {
     switch (action.type) {
     case 'NOTIFY':
-      return action.data.notification
+        return action.data.notification;
     default:
-      return state
+        return state;
     }
-}
+};
 
-export const notify = (notification, time) => {
-        return {
-          type: 'NOTIFY',
-          data: {notification: notification}
-        }
-    }
-    
+export const notify = (notification) => ({
+    type: 'NOTIFY',
+    data: { notification },
+});
 
-export default notificationReducer
+
+export default notificationReducer;

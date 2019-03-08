@@ -1,45 +1,45 @@
-import App from './App'
-import React from 'react'
-import { render, waitForElement } from 'react-testing-library'
-jest.mock('./services/blogs')
+import { render, waitForElement } from 'react-testing-library';
+import React from 'react';
+import App from './App';
+jest.mock('./services/blogs');
 
 describe('<App />', () => {
-  let component
+    let component
 
-  beforeEach(() => {
-    component = render(
-      <App />
-    )
-  })
+    beforeEach(() => {
+        component = render(
+            <App />
+        )
+    })
 
-  it('if no user logged, notes are not rendered', async () => {
-    component.rerender(<App />)
+    it('if no user logged, notes are not rendered', async () => {
+        component.rerender(<App />)
 
-    await waitForElement(() => component.getByText('kirjaudu'))
+        await waitForElement(() => component.getByText('kirjaudu'))
 
-    expect(component.container).toHaveTextContent('kirjaudu')
-    expect(component.container).toHaveTextContent('log in to application')
-    expect(component.container).toHaveTextContent('käyttäjätunnus')
-    expect(component.container).toHaveTextContent('salasana')
-    expect(component.container).not.toHaveTextContent('Dan Abramov')
-  })
+        expect(component.container).toHaveTextContent('kirjaudu')
+        expect(component.container).toHaveTextContent('log in to application')
+        expect(component.container).toHaveTextContent('käyttäjätunnus')
+        expect(component.container).toHaveTextContent('salasana')
+        expect(component.container).not.toHaveTextContent('Dan Abramov')
+    })
 
-  it('if no user logged, notes are not rendered2', async () => {
-    const user = {
-      username: 'tester',
-      token: '1231231214',
-      name: 'Teuvo Testaaja'
-    }
+    it('if no user logged, notes are not rendered2', async () => {
+        const user = {
+            username: 'tester',
+            token: '1231231214',
+            name: 'Teuvo Testaaja'
+        }
 
-    localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
+        localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
 
-    component.rerender(<App />)
+        component.rerender(<App />)
 
-    await waitForElement(() => component.getByText('create'))
+        await waitForElement(() => component.getByText('create'))
 
-    expect(component.container).not.toHaveTextContent('käyttäjätunnus')
-    expect(component.container).not.toHaveTextContent('salasana')
-    expect(component.container).toHaveTextContent('Dan Abramov')
-    expect(component.container).toHaveTextContent('Martin Fowler')
-  })
+        expect(component.container).not.toHaveTextContent('käyttäjätunnus')
+        expect(component.container).not.toHaveTextContent('salasana')
+        expect(component.container).toHaveTextContent('Dan Abramov')
+        expect(component.container).toHaveTextContent('Martin Fowler')
+    })
 })

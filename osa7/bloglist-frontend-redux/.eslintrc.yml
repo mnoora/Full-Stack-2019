@@ -1,0 +1,31 @@
+env:
+  browser: true
+  es6: true
+extends: 
+  - "eslint:recommended" 
+  - "plugin:react/recommended"
+globals:
+  Atomics: readonly
+  SharedArrayBuffer: readonly
+  shallow: true,
+  render: true,
+  expect: true,
+  test: true,
+  describe: true,
+  beforeEach: true,
+  it: true,
+  jest: true,
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: 2018
+  sourceType: module
+parser: babel-eslint
+plugins:
+  - react
+rules: {
+  react/jsx-uses-vars: error,
+  indent: error,
+  react/jsx-no-undef: error, [allowGlobals: true],
+  react/jsx-uses-react: error
+}
