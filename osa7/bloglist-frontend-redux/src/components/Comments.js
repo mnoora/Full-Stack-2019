@@ -34,9 +34,9 @@ const Comments = ({blog,commentBlog}) => {
     <div>
       <form onSubmit={handleSubmit}>
         <div>
-          <input {...comment} />
+          <input id='comment' {...comment} />
         </div>
-        <Button variant="success" type='submit'>add comment</Button>
+        <Button id='addComment' variant="success" type='submit'>add comment</Button>
       </form>
       <ul>
         {blog.comments.map(comment =>

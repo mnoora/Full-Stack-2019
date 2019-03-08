@@ -59,7 +59,7 @@ const App = (props) => {
       blogService.setToken(user.token)
       setUser(user)
     } catch (exception) {
-      store.dispatch(notify('wrong username of password',5))
+      store.dispatch(notify('wrong username or password',5))
     }
   }
 
@@ -114,11 +114,11 @@ const App = (props) => {
         <form onSubmit={handleLogin}>
           <div>
             käyttäjätunnus
-            <input {...username}/>
+            <input id='username' {...username}/>
           </div>
           <div>
             salasana
-            <input {...password} />
+            <input id='password' {...password} />
           </div>
           <Button variant="success" type="submit">kirjaudu</Button>
         </form>

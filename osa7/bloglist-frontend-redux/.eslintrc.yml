@@ -18,6 +18,7 @@ globals:
   module: true,
   require: true,
   __dirname: true,
+  cy: true,
 parserOptions:
   ecmaFeatures:
     jsx: true
