@@ -15,6 +15,9 @@ globals:
   beforeEach: true,
   it: true,
   jest: true,
+  module: true,
+  require: true,
+  __dirname: true,
 parserOptions:
   ecmaFeatures:
     jsx: true
