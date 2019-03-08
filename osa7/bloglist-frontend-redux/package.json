@@ -42,6 +42,8 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
     "jest-dom": "^3.0.1",
-    "react-testing-library": "^5.4.4"
+    "react-testing-library": "^5.4.4",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
   }
 }

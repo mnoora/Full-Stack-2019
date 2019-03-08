@@ -25,7 +25,7 @@ plugins:
   - react
 rules: {
   react/jsx-uses-vars: error,
-  indent: error,
+  indent: [error, 2],
   react/jsx-no-undef: error, [allowGlobals: true],
   react/jsx-uses-react: error
 }

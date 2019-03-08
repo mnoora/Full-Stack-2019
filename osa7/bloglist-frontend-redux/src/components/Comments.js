@@ -4,53 +4,53 @@ import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types'
 
 const Comments = ({blog,commentBlog}) => {
-    const [comment, commentReset] = useField('text')
+  const [comment, commentReset] = useField('text')
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        commentBlog({
-            id: blog.id,
-            comment: comment.value,
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    commentBlog({
+      id: blog.id,
+      comment: comment.value,
         
-        })
-        commentReset()
-    }
+    })
+    commentReset()
+  }
 
-    if(blog.comments.length === 0){
-        return(
-            <div>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <input {...comment} />
-                    </div>
-                    <Button variant="success" type='submit'>add comment</Button>
-                </form>
+  if(blog.comments.length === 0){
+    return(
+      <div>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <input {...comment} />
+          </div>
+          <Button variant="success" type='submit'>add comment</Button>
+        </form>
                 No comments added!
-            </div>
-        )
-    }
-
-    return ( 
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <input {...comment} />
-                </div>
-                <Button variant="success" type='submit'>add comment</Button>
-            </form>
-            <ul>
-                {blog.comments.map(comment =>
-                    <li key={comment}>
-                        {comment}
-                    </li>)}
-            </ul>
-        </div>
+      </div>
     )
+  }
+
+  return ( 
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <input {...comment} />
+        </div>
+        <Button variant="success" type='submit'>add comment</Button>
+      </form>
+      <ul>
+        {blog.comments.map(comment =>
+          <li key={comment}>
+            {comment}
+          </li>)}
+      </ul>
+    </div>
+  )
 }
 
 Comments.propTypes = {
-    commentBlog: PropTypes.func.isRequired,
-    blog: PropTypes.object.isRequired
+  commentBlog: PropTypes.func.isRequired,
+  blog: PropTypes.object.isRequired
 }
 
 export default Comments
