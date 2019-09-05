@@ -159,7 +159,7 @@ const resolvers = {
       const book = {...args, id: uuid() }
       books = books.concat(book)
 
-      if(authors.find(author => author.name === book.author) === null){
+      if(authors.filter(author => author.name === book.author).length === 0){
         const author = {name: book.author, id: uuid(), born: null}
         authors = authors.concat(author)
       }
