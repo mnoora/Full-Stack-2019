@@ -43,6 +43,15 @@ const ADD_BOOK = gql`
   }
 `
 
+const EDIT_AUTHOR = gql`
+  mutation editAuthor($name: String!, $setBornTo: Int!) {
+    editAuthor(name: $name, setBornTo: $setBornTo){
+      name
+      born
+    }
+  }
+`
+
 const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const handleError = (error) => {
@@ -61,6 +70,11 @@ const App = () => {
     refetchQueries: [{ query: ALL_BOOKS} ,{ query: ALL_AUTHORS }]
   })
 
+  const [editAuthor] = useMutation(EDIT_AUTHOR, {
+    onError: () => { console.log('Unsuccessful in editing author')},
+    refetchQueries: [{ query: ALL_AUTHORS }]
+  })
+
   return (
     <div>
       {errorMessage &&
@@ -75,7 +89,7 @@ const App = () => {
       </div>
 
       <Authors
-        show={page === 'authors'} result={resultAuthors}
+        show={page === 'authors'} result={resultAuthors} editAuthor={editAuthor}
       />
 
       <Books
