@@ -23,7 +23,7 @@ const Authors = ({show, result, editAuthor} ) => {
     const setBornTo = born
 
     await editAuthor({
-      variables: { name, setBornTo}
+      variables: { name: e.target.name.value , setBornTo}
     })
 
     setName('')
@@ -59,10 +59,9 @@ const Authors = ({show, result, editAuthor} ) => {
       <div>
           name
           <select
-            value={name}
-            onChange={({ target }) => setName(target.value)}>
+            name='name'>
               {authors.map( author =>
-                <option key={author.id} value={author.name}>{author.name}</option>
+                <option key={author.name} value={author.name}>{author.name}</option>
                 )}
           </select>
         </div>
