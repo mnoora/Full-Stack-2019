@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
-import { gql } from 'apollo-boost'
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import LoginForm from './components/LoginForm'
+import { gql} from 'apollo-boost'
+import { useQuery, useMutation,useApolloClient } from '@apollo/react-hooks'
+
 
 const ALL_AUTHORS = gql`
 {
@@ -52,8 +54,36 @@ const EDIT_AUTHOR = gql`
   }
 `
 
+const LOGIN = gql`
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password)  {
+      value
+    }
+  }
+`
+
+const USER = gql`
+  {
+    me {
+      username
+      favoriteGenre
+    }
+  }
+`;
+
 const App = () => {
+  const client = useApolloClient()
   const [errorMessage, setErrorMessage] = useState(null)
+  const [token, setToken] = useState(null)
+
+  useEffect(() => {
+    const userToken = window.localStorage.getItem('book-user-token');
+    console.log('userToken', userToken);
+    if (userToken) {
+      setToken(userToken);
+    }
+  }, []);
+
   const handleError = (error) => {
     setErrorMessage(error.graphQLErrors[0].message)
     setTimeout(() => {
@@ -62,6 +92,7 @@ const App = () => {
   }
   const resultAuthors = useQuery(ALL_AUTHORS)
   const resultBooks = useQuery(ALL_BOOKS)
+  const resultUser = useQuery(USER)
 
   const [page, setPage] = useState('authors')
 
@@ -75,33 +106,82 @@ const App = () => {
     refetchQueries: [{ query: ALL_AUTHORS }]
   })
 
-  return (
-    <div>
-      {errorMessage &&
-        <div style={{color: 'red'}}>
-          {errorMessage}
-        </div>
-      }
+  const [login] = useMutation(LOGIN, {
+    onError: handleError
+  })
+
+  const logout = () => {
+    setToken(null)
+    localStorage.removeItem('book-user-token');
+    console.log(token)
+    localStorage.clear()
+    client.resetStore()
+  }
+
+
+
+  
+  if (token) {
+    return (
       <div>
-        <button onClick={() => setPage('authors')}>authors</button>
-        <button onClick={() => setPage('books')}>books</button>
-        <button onClick={() => setPage('add')}>add book</button>
+        {errorMessage &&
+          <div style={{color: 'red'}}>
+            {errorMessage}
+          </div>
+        }
+        <div>
+          <button onClick={() => setPage('authors')}>authors</button>
+          <button onClick={() => setPage('books')}>books</button>
+          <button onClick={() => setPage('add')}>add book</button>
+          <button onClick={() => logout() }>logout</button>
+        </div>
+       
+
+        <Authors
+          show={page === 'authors'} result={resultAuthors} editAuthor={editAuthor}
+        />
+
+        <Books
+          show={page === 'books'} result={resultBooks}
+        />
+
+        <NewBook
+          show={page === 'add'} addBook={addBook}
+        />
+
       </div>
-
-      <Authors
-        show={page === 'authors'} result={resultAuthors} editAuthor={editAuthor}
-      />
-
-      <Books
-        show={page === 'books'} result={resultBooks}
-      />
-
-      <NewBook
-        show={page === 'add'} addBook={addBook}
-      />
-
-    </div>
-  )
+    )
+      }
+      else {
+        return (
+          <div>
+            {errorMessage &&
+              <div style={{color: 'red'}}>
+                {errorMessage}
+              </div>
+            }
+            <div>
+              <button onClick={() => setPage('authors')}>authors</button>
+              <button onClick={() => setPage('books')}>books</button>
+              <button onClick={() => setPage('login')}>login</button>
+            </div>
+    
+            <Authors
+              show={page === 'authors'} result={resultAuthors} editAuthor={editAuthor}
+            />
+    
+            <Books
+              show={page === 'books'} result={resultBooks}
+            />
+            
+            <LoginForm 
+              show={page=== 'login'} login={login} setToken={(token) => setToken(token)} 
+            />
+    
+          </div>
+        )
+        
+      }
 }
 
 export default App

@@ -4,12 +4,13 @@ const config = require('./util/config')
 const mongoose = require('mongoose')
 const Author = require('./models/author')
 const Book = require('./models/book')
+const User = require('./models/user')
 
 mongoose.set('useFindAndModify', false)
 
 const jwt = require('jsonwebtoken')
 
-const JWT_SECRET = 'NEED_HERE_A_SECRET_KEY'
+const JWT_SECRET = 'secret'
 
 const mongodb = config.MONGO_URI
 
@@ -127,6 +128,7 @@ const resolvers = {
   Mutation: {
     addBook: async (root, args, context) => {
       const currentUser = context.currentUser
+      console.log(currentUser)
       if(!currentUser){
         throw new AuthenticationError('not authenticated')
       }
@@ -144,7 +146,6 @@ const resolvers = {
         }
       }
       const book = new Book({...args, author: bookAuthor._id }).populate('author')
-
       try {
         await book.save()
       } catch (error){
@@ -171,8 +172,9 @@ const resolvers = {
       }
       return author
     },
-    createUser: (root, args) => {
-      const user = new User({ username: args.username })
+    createUser: async (root, args) => {
+      console.log(args)
+      const user = new User({ username: args.username, favoriteGenre: args.favoriteGenre })
   
       return user.save()
         .catch(error => {
@@ -183,6 +185,7 @@ const resolvers = {
     },
     login: async (root, args) => {
       const user = await User.findOne({ username: args.username })
+      console.log(user)
   
       if ( !user || args.password !== 'secret' ) {
         throw new UserInputError("wrong credentials")
@@ -207,12 +210,12 @@ const server = new ApolloServer({
       const decodedToken = jwt.verify(
         auth.substring(7), JWT_SECRET
       )
-      const currentUser = await User.findById(decodedToken.id).populate('friends')
+      const currentUser = await User.findById(decodedToken.id)
       return { currentUser }
     }
   }
-})
+});
 
 server.listen().then(({ url }) => {
   console.log(`Server ready at ${url}`)
-})
+});
